@@ -2,11 +2,15 @@
 {% block title %}Home{% endblock %}
 {% block head %}{{ super() }}{% endblock %}
 {% block content %}
-
+<div class="login-container">
     {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endwith %}
-
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    {% endwith %}<br>
+    <p>Your last login was at: {{last_login_time}}</p><br>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
 {% endblock %}

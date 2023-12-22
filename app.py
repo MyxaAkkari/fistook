@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import json
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 users = [] # Holds the users information
@@ -21,7 +22,10 @@ def save_2_file():
 @app.route('/')
 def index():
     if 'user_id' in session:
-        return render_template('index.html')
+        user_id = session['user_id']
+        user = next((usr for usr in users if usr['id'] == user_id), None)
+        last_login_time = user.get('last_login_time', 'N/A')
+        return render_template('index.html', last_login_time=last_login_time)
     return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -40,7 +44,9 @@ def login():
             if email_uname == usr["email"] or email_uname == usr["username"]: # check if email/ Uname exist in list
                 if password == usr["password"]:
                     session['user_id'] = usr['id']  # Save user ID in session
+                    usr['last_login_time'] = datetime.now().strftime('%d-%m-%Y %H:%M')
                     flash(f"Welcome, {usr['username']}!") # welcome message using flash
+                    save_2_file()  # save updated users list to file
                     return redirect(url_for('index'))  # Redirect to the index route
                 else:
                     wrong_password = 'Incorrect email or password. <a href="/passreset">Forgot Password?</a>' # error message contains a link for pwd reset page
@@ -70,7 +76,8 @@ def register():
             return render_template('register.html', short_password = short_password)
         else: # if all successfull 
             user_id = len(users) + 1  # Generate a simple user ID
-            users.append({"id": user_id,"username": new_uname, "email": new_email, "password": new_password}) # add new user info to list
+            users.append({"id": user_id, "username": new_uname, "email": new_email, "password": new_password,
+                          "last_login_time": datetime.now().strftime('%%d-%m-%Y %H:%M')})  # add new user info to list
             session['user_id'] = user_id  # Save user ID in session
             save_2_file() # save updated users list to file
             flash(f"Welcome, {new_uname}!") # welcome message
@@ -79,6 +86,11 @@ def register():
 @app.route('/passreset')
 def passreset(): # in progress
     return render_template('passreset.html')
+
+@app.route('/logout', methods = ["POST"])
+def logout():
+    session.clear()  # Clear all session data
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     load_data() # load data on startup 
