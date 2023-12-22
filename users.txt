@@ -1,25 +1,30 @@
 [
   {
+    "id": 1,
     "username": "Myxa_Akkari",
     "email": "myxaakkari@gmail.com",
     "password": "myxamyxa"
   },
   {
+    "id": 2,
     "username": "BimBamBoom_Suka",
     "email": "bimbambom@gmail.com",
     "password": "bimbimbim"
   },
   {
+    "id": 3,
     "username": "loblu_siski",
     "email": "siski_lover@gmail.com",
     "password": "siskisiski"
   },
   {
+    "id": 4,
     "username": "koko_loqo",
     "email": "loqo@qoqo.com",
     "password": "qoqoloko"
   },
   {
+    "id": 5,
     "username": "keke",
     "email": "keke@keke.com",
     "password": "kekekeke"

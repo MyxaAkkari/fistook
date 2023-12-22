@@ -1,13 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import json
 import os
 
 app = Flask(__name__)
 users = [] # Holds the users information
-allow_home_access = False # Don't allow reaching home page unless login or register was made
 USERS = "users.txt" # users file
-secret_key = os.urandom(24) # Genreating a random 24bit key
-app.secret_key = secret_key # saving the secret key
+app.secret_key = os.urandom(24) # Genreating a random 24bit key
 
 # Loads the users info from file to list
 def load_data():
@@ -22,13 +20,13 @@ def save_2_file():
 
 @app.route('/')
 def index():
-    if allow_home_access: 
+    if 'user_id' in session:
         return render_template('index.html')
     return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global allow_home_access, users
+    global users
     if request.method == 'GET': # if method is GET show the login page without error messages
         no_email = ""
         wrong_password = ""
@@ -41,7 +39,7 @@ def login():
         for usr in users: # loop in users list
             if email_uname == usr["email"] or email_uname == usr["username"]: # check if email/ Uname exist in list
                 if password == usr["password"]:
-                    allow_home_access = True # allow access to home page
+                    session['user_id'] = usr['id']  # Save user ID in session
                     flash(f"Welcome, {usr['username']}!") # welcome message using flash
                     return redirect(url_for('index'))  # Redirect to the index route
                 else:
@@ -52,7 +50,7 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    global allow_home_access, users
+    global users
     if request.method == 'GET': # if method is GET show the register page without error messages
         short_password = ""
         email_exist = ""
@@ -71,8 +69,9 @@ def register():
         if len(new_password) < 8: # check if pwd meets requirements
             return render_template('register.html', short_password = short_password)
         else: # if all successfull 
-            users.append({"username": new_uname, "email": new_email, "password": new_password}) # add new user info to list
-            allow_home_access = True # allow home page access
+            user_id = len(users) + 1  # Generate a simple user ID
+            users.append({"id": user_id,"username": new_uname, "email": new_email, "password": new_password}) # add new user info to list
+            session['user_id'] = user_id  # Save user ID in session
             save_2_file() # save updated users list to file
             flash(f"Welcome, {new_uname}!") # welcome message
             return redirect(url_for('index'))  # Redirect to the index route
