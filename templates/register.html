@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Register{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="site-name">Fistook</div>
+    <form action="/register" method="post">
+        <div class="input-group">
+            <label for="uname">Username:</label>
+            <input type="text" id="uname" name="new_uname" required>
+        </div>
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="new_email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="new_password" required>
+        </div>
+        <button type="submit">Create</button>
+        <div style="margin-top: 10px;">
+            {{email_exist}}
+        </div>
+        <div style="margin-top: 10px;">
+            {{short_password}}
+        </div>
+    </form>
+    <div class="create-account">
+        Already have an account? <a href="/login">Login</a>
+    </div>
+</div>
+{% endblock %}

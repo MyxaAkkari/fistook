@@ -1,0 +1,27 @@
+[
+  {
+    "username": "Myxa_Akkari",
+    "email": "myxaakkari@gmail.com",
+    "password": "myxamyxa"
+  },
+  {
+    "username": "BimBamBoom_Suka",
+    "email": "bimbambom@gmail.com",
+    "password": "bimbimbim"
+  },
+  {
+    "username": "loblu_siski",
+    "email": "siski_lover@gmail.com",
+    "password": "siskisiski"
+  },
+  {
+    "username": "koko_loqo",
+    "email": "loqo@qoqo.com",
+    "password": "qoqoloko"
+  },
+  {
+    "username": "keke",
+    "email": "keke@keke.com",
+    "password": "kekekeke"
+  }
+]

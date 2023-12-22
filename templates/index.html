@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block content %}
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endwith %}
+
+{% endblock %}
