@@ -21,9 +21,9 @@ def save_2_file():
 
 @app.route('/')
 def index():
-    if 'user_id' in session:
+    if 'user_id' in session: #if user isn't logged in -> no session made for his user id -> send him to login page
         user_id = session['user_id']
-        user = next((usr for usr in users if usr['id'] == user_id), None)
+        user = next((usr for usr in users if usr['id'] == user_id), None) # gets the first usr that has the use_id using next loop
         last_login_time = user.get('last_login_time', 'N/A')
         return render_template('index.html', last_login_time=last_login_time)
     return render_template('login.html')
