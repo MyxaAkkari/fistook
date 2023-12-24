@@ -44,7 +44,7 @@ def login():
             if email_uname == usr["email"] or email_uname == usr["username"]: # check if email/ Uname exist in list
                 if password == usr["password"]:
                     session['user_id'] = usr['id']  # Save user ID in session
-                    usr['last_login_time'] = datetime.now().strftime('%d-%m-%Y %H:%M')
+                    usr['last_login_time'] = datetime.now().strftime('%d-%m-%Y %H:%M') #set the last_login_time to the time he logged in using dd-mm-yy hh-mm format
                     flash(f"Welcome, {usr['username']}!") # welcome message using flash
                     save_2_file()  # save updated users list to file
                     return redirect(url_for('index'))  # Redirect to the index route
