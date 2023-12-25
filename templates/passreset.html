@@ -2,5 +2,21 @@
 {% block title %}Reset{% endblock %}
 {% block head %}{{ super() }}{% endblock %}
 {% block content %}
-In Progress.
+<div class="login-container">
+    <div class="site-name">Fistook</div>
+    <form action="/passreset" method="post">
+        <p>Type your Email address, We will send you a link to reset your password.</p>
+        <div class="input-group">
+            <label for="email">Email: </label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <button type="submit">Send</button>
+        <div style="margin-top: 10px;">
+            {{email_sent}}
+        </div>
+    </form>
+    <div class="create-account">
+        Already have an account? <a href="/login">Login</a>
+    </div>
+</div>
 {% endblock %}

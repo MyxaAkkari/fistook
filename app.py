@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 import json
 import os
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 
 app = Flask(__name__)
 users = [] # Holds the users information
@@ -83,9 +87,52 @@ def register():
             flash(f"Welcome, {new_uname}!") # welcome message
             return redirect(url_for('index'))  # Redirect to the index route
 
-@app.route('/passreset')
+@app.route('/passreset', methods= ['GET', 'POST'])
 def passreset(): # in progress
-    return render_template('passreset.html')
+    if request.method == "GET":
+        return render_template('passreset.html')
+    receiver_email = request.form['email']
+    for usr in users:
+        if receiver_email == usr["email"]:
+                    # Email configuration
+            sender_email = "your_email@gmail.com"
+            subject = "Fistook - Password reset"
+            body = f"Hello {usr['username']}, click this link to set a new password. "
+
+            # Create the MIME object
+            msg = MIMEMultipart()
+            msg['From'] = sender_email
+            msg['To'] = receiver_email
+            msg['Subject'] = subject
+
+            # Attach the body of the email
+            msg.attach(MIMEText(body, 'plain'))
+
+            # SMTP Configuration (for Gmail)
+            smtp_server = "smtp.gmail.com"
+            smtp_port = 587
+            smtp_username = "your_email@gmail.com"
+            smtp_password = "your_email_password"
+            # Create a connection to the SMTP server
+            with smtplib.SMTP(smtp_server, smtp_port) as server:
+                # Start TLS for security
+                server.starttls()
+
+                # Login to the email account
+                server.login(smtp_username, smtp_password)
+
+                # Send the email
+                server.sendmail(sender_email, receiver_email, msg.as_string())
+            email_sent = "Link to set a new password has been sent to your email."
+            return redirect(url_for('/passreset.html', email_sent = email_sent))
+        else:
+            email_sent = "Email was not found in our database."
+            return render_template('/passreset.html', email_sent= email_sent)
+
+
+
+
+
 
 @app.route('/logout', methods = ["POST"])
 def logout():

@@ -16,7 +16,7 @@
     Using layout.html to have unified styles for all pages.
 
 ### To-Be added
-    Home page.
-    Forgot password page.
-    sessions. - In progress
+    Home page. - N/A
+    Forgot password page. - Done (email needs to be configuered by sender)
+    sessions. - Almost done (need to add timeouts to the sessions.)
 
