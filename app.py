@@ -37,8 +37,7 @@ def login():
     global users
     if request.method == 'GET': # if method is GET show the login page without error messages
         no_email = ""
-        wrong_password = ""
-        return render_template('login.html', no_email=no_email, wrong_password=wrong_password)
+        return render_template('login.html', no_email=no_email)
     else:
         email_uname = request.form["email"]
         password = request.form["password"]
@@ -53,8 +52,7 @@ def login():
                     save_2_file()  # save updated users list to file
                     return redirect(url_for('index'))  # Redirect to the index route
                 else:
-                    wrong_password = 'Incorrect email or password. <a href="/passreset">Forgot Password?</a>' # error message contains a link for pwd reset page
-                    return render_template('login.html', wrong_password=wrong_password) #reload login.html with error message
+                    return render_template('login.html') #reload login.html with error message
 
         return render_template('login.html', no_email = no_email) ##reload login.html with error message 
 

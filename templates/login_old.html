@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="site-name">Fistook</div>
+    <form action="/login" method="post">
+        <div class="input-group">
+            <label for="email">Email / Username:</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+        <div style="margin-top: 10px;">
+            {{no_email}}
+        </div>
+        <div style="margin-top: 10px;">
+            {{wrong_password|safe}}
+        </div>
+    </form>
+    <div class="create-account">
+        Don't have an account? <a href="/register">Create Account</a>
+    </div>
+</div>
+{% endblock %}
